@@ -5,20 +5,68 @@ class DoublyLinkedList {
   }
 
   setHead(node) {
-    // Write your code here.
+    if (!this.head) {
+      this.head = node;
+      this.tail = node;
+    } else {
+      this.head.prev = node;
+      node.next = this.head;
+      this.head = node;
+    }
+
   }
 
   setTail(node) {
-    // Write your code here.
+    if (!this.tail) {
+      this.tail = node;
+      this.head = node;
+    } else {
+      node.prev = this.tail;
+      this.tail.next = node;
+      this.tail = node;
+    }
   }
 
   insertBefore(node, nodeToInsert) {
-    // Write your code here.
+    if (this.head.value === node.value) {
+      this.setHead(nodeToInsert);
+    } else {
+      let nextNode = this.head.next;
+      let currentNode = this.head;
+      while (nextNode) {
+        if (nextNode.value === node.value) {
+          nodeToInsert.next = nextNode;
+          nodeToInsert.prev = currentNode;
+
+          nextNode.prev = nodeToInsert;
+          currentNode.next = nodeToInsert;
+        }
+        currentNode = nextNode;
+        nextNode = nextNode.next;
+      }
+    }
   }
 
   insertAfter(node, nodeToInsert) {
-    // Write your code here.
+      let currentNode = this.head;
+      while (currentNode) {
+        if (currentNode.value === node.value) {
+          if (!currentNode.next) {
+            this.setTail(nodeToInsert);
+            return;
+          } else {
+            currentNode.next.prev = nodeToInsert;
+            currentNode.next = nodeToInsert;
+
+            nodeToInsert.prev = currentNode;
+            nodeToInsert.next = currentNode.next;
+            return;
+          }
+        }
+        currentNode = currentNode.next;
+      }
   }
+
 
   insertAtPosition(position, nodeToInsert) {
     // Write your code here.
@@ -29,7 +77,17 @@ class DoublyLinkedList {
   }
 
   remove(node) {
-    // Write your code here.
+    if (this.head === this.tail && this.head.value === node.value) {
+      this.head = node;
+      this.tail = node;
+      return;
+    }
+    let currentNode = this.head;
+    while (currentNode) {
+      if (currentNode.value === node.value) {
+        //
+      }
+    }
   }
 
   containsNodeWithValue(value) {
@@ -42,3 +100,23 @@ class DoublyLinkedList {
 		return false;
   }
 }
+
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.prev = null;
+    this.next = null;
+  }
+}
+
+// Tests
+let linked = new DoublyLinkedList();
+linked.setHead(new Node(5));
+linked.setHead(new Node(4));
+linked.setHead(new Node(3));
+
+
+console.log('set value node', linked.insertAfter(new Node(5), new Node(10)));
+console.log('linked list', linked);
+
+
