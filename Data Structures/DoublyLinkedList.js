@@ -1,3 +1,4 @@
+// memory leak somewhere
 class DoublyLinkedList {
   constructor() {
     this.head = null;
