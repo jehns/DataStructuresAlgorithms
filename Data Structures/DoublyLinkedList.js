@@ -73,21 +73,31 @@ class DoublyLinkedList {
   }
 
   removeNodesWithValue(value) {
-    // Write your code here.
-  }
-
-  remove(node) {
-    if (this.head === this.tail && this.head.value === node.value) {
-      this.head = node;
-      this.tail = node;
+    if (this.head === this.tail && this.head.value === value) {
+      this.head = null;
+      this.tail = null;
       return;
+    } else if (this.head.value === value) {
+      this.head.next.prev = null;
+      this.head = this.head.next;
+    } else if (this.tail.value === value) {
+      this.head.next.prev = null;
+      this.head = this.head.next;
     }
     let currentNode = this.head;
     while (currentNode) {
-      if (currentNode.value === node.value) {
-        //
+      if (currentNode.value === value) {
+        currentNode.prev.next = currentNode.next;
+        currentNode.next.prev = currentNode.prev;
+        currentNode.prev = null;
+        currentNode.next = null;
       }
+      currentNode = currentNode.next;
     }
+  }
+
+  remove(node) {
+
   }
 
   containsNodeWithValue(value) {
