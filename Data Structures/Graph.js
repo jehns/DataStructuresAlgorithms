@@ -47,17 +47,13 @@ class Graph {
   }
 
   detectCycleUTIL(vertex, visited, recStack) {
-    console.log('1st', vertex)
     if (!visited[vertex]) {
       visited[vertex] = true;
       recStack[vertex] = true;
       let neighbors = this.adjList[vertex];
-      console.log('neighbors', neighbors)
       for (let i = 0; i < neighbors.length; i++) {
-        console.log('current neighbor', neighbors[i])
-        // console.log('recStack', recStack)
-
-        if (!visited[vertex] && this.detectCycleUTIL(neighbors[i], visited, recStack)) {
+        // console.log('current node', neighbors[i])
+        if (!visited[neighbors[i]] && this.detectCycleUTIL(neighbors[i], visited, recStack)) {
           return true;
         } else if (recStack[neighbors[i]]) {
           return true;
