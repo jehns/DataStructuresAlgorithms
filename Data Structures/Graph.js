@@ -53,11 +53,14 @@ class Graph {
       let neighbors = this.adjList[vertex];
       for (let i = 0; i < neighbors.length; i++) {
         // console.log('current node', neighbors[i])
+        // console.log(' visited neighbors[i]', visited[neighbors[i]])
+
         if (!visited[neighbors[i]] && this.detectCycleUTIL(neighbors[i], visited, recStack)) {
           return true;
         } else if (recStack[neighbors[i]]) {
           return true;
         }
+
       }
     }
     recStack[vertex] = false;
