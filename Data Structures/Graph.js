@@ -1,102 +1,5 @@
 
-// class Graph {
-//   // defining vertex array and
-//   // adjacent list
-//   constructor(noOfVertices)
-//   {
-//       this.noOfVertices = noOfVertices;
-//       this.AdjList = new Map();
-//   }
-
-//   // functions to be implemented
-
-//   // add vertex to the graph
-//   addVertex(v)
-//   {
-//       // initialize the adjacent list with a
-//       // null array
-//       this.AdjList.set(v, []);
-//   }
-//   // add edge to the graph
-//   addEdge(v, w)
-//   {
-//       // get the list for vertex v and put the
-//       // vertex w denoting edge betweeen v and w
-//       this.AdjList.get(v).push(w);
-
-//       // Since graph is undirected,
-//       // add an edge from w to v also
-//       this.AdjList.get(w).push(v);
-//   }
-//   // Prints the vertex and adjacency list
-//   printGraph()
-//   {
-//       // get all the vertices
-//       var get_keys = this.AdjList.keys();
-
-//       // iterate over the vertices
-//       for (var i of get_keys)
-//   {
-//           // great the corresponding adjacency list
-//           // for the vertex
-//           var get_values = this.AdjList.get(i);
-//           var conc = "";
-
-//           // iterate over the adjacency list
-//           // concatenate the values into a string
-//           for (var j of get_values)
-//               conc += j + " ";
-
-//           // print the vertex and its adjacency list
-//           console.log(i + " -> " + conc);
-//       }
-//   }
-
-//   // dfs(v)
-//   dfs(startingNode) {
-//     function traverse(map, visited = {}, stack = []) {
-
-//     }
-//     const visited =
-
-
-//   }
-
-// }
-
-// // Using the above implemented graph class
-// var g = new Graph(6);
-// var vertices = [ 'A', 'B', 'C', 'D', 'E', 'F' ];
-
-// // adding vertices
-// for (var i = 0; i < vertices.length; i++) {
-//     g.addVertex(vertices[i]);
-// }
-
-// // adding edges
-// g.addEdge('A', 'B');
-// g.addEdge('A', 'D');
-// g.addEdge('A', 'E');
-// g.addEdge('B', 'C');
-// g.addEdge('D', 'E');
-// g.addEdge('E', 'F');
-// g.addEdge('E', 'C');
-// g.addEdge('C', 'F');
-
-// g.printGraph();
-
-
-
-
-
-
-
-
-
-
-/////////////////////////////////////////////////////////////////// New Solution ///////////////////////////////////////////////////////////////////////
-
-// undirected
+// directed
 class Graph {
   constructor() {
     this.adjList = {};
@@ -108,8 +11,6 @@ class Graph {
 
   addEdge(vertex1, vertex2) {
     this.adjList[vertex1].push(vertex2);
-    // this.adjList[vertex2].push(vertex1);
-
   }
 
   dfs(startingVertex) {
@@ -125,13 +26,46 @@ class Graph {
   dfsUTIL(vertex, visited = {}) {
     if (!visited[vertex]) {
       visited[vertex] = true;
-      // stack.push(vertex);
-      console.log('vertex', vertex)
+      console.log('vertex', vertex);
       let neighbors = this.adjList[vertex];
       for (let i = 0; i < neighbors.length; i++) {
         this.dfsUTIL(neighbors[i], visited);
       }
     }
+  }
+
+  detectCycle() {
+    const vertices = Object.keys(this.adjList);
+    const visited = {};
+    const recStack = {};
+    for (let i = 0; i < vertices.length; i++) {
+      if (this.detectCycleUTIL(vertices[i], visited, recStack)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  detectCycleUTIL(vertex, visited, recStack) {
+    console.log('1st', vertex)
+    if (!visited[vertex]) {
+      visited[vertex] = true;
+      recStack[vertex] = true;
+      let neighbors = this.adjList[vertex];
+      console.log('neighbors', neighbors)
+      for (let i = 0; i < neighbors.length; i++) {
+        console.log('current neighbor', neighbors[i])
+        // console.log('recStack', recStack)
+
+        if (!visited[vertex] && this.detectCycleUTIL(neighbors[i], visited, recStack)) {
+          return true;
+        } else if (recStack[neighbors[i]]) {
+          return true;
+        }
+      }
+    }
+    recStack[vertex] = false;
+    return false;
   }
 
 }
@@ -144,40 +78,87 @@ graph.addVertex('B');
 graph.addVertex('C');
 graph.addVertex('D');
 graph.addVertex('E');
+graph.addVertex('F');
+
 
 
 graph.addEdge('A', 'B');
-graph.addEdge('D', 'E');
-graph.addEdge('C', 'E');
 graph.addEdge('A', 'D');
 graph.addEdge('A', 'C');
-graph.addEdge('E', 'B');
+
+graph.addEdge('C', 'E');
+
+graph.addEdge('D', 'E');
+graph.addEdge('D', 'F');
+graph.addEdge('D', 'B');
+
+graph.addEdge('F', 'A');
+
+// console.log('dfs', graph.dfs("A"))
+
+console.log('cycle?', graph.detectCycle())
 
 
-graph.dfs('B')
 
+////////////////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-
-// dfs() {
-//   const nodes = Object.keys(this.adjList);
-//   for (let i = 0; i < nodes.length; i++) {
-//     this.dfsUTIL(nodes[i]);
+// // undirected
+// class Graph {
+//   constructor() {
+//     this.adjList = {};
 //   }
-// }
 
-// dfsUTIL (node, visited = {}) {
-//   if (!visited[node]) {
-//     visited[node] = true;
-//     console.log('vertex visited', node);
-//     const neighbors = this.adjList[node]
-//     for (let i = 0; i < neighbors.length; i++) {
-//       this.dfsUTIL(neighbors[i], visited);
+//   addVertex(vertex) {
+//     this.adjList[vertex] = []
+//   }
+
+//   addEdge(vertex1, vertex2) {
+//     this.adjList[vertex1].push(vertex2);
+//     this.adjList[vertex2].push(vertex1);
+
+//   }
+
+//   dfs(startingVertex) {
+//     this.dfsUTIL(startingVertex)
+//   }
+
+//   dfsUTIL(vertex, visited = {}) {
+//     if (!visited[vertex]) {
+//       visited[vertex] = true;
+//       // console.log('vertex', vertex);
+//       let neighbors = this.adjList[vertex];
+//       for (let i = 0; i < neighbors.length; i++) {
+//         this.dfsUTIL(neighbors[i], visited);
+//       }
 //     }
 //   }
 // }
+
+
+// const graph = new Graph();
+
+// graph.addVertex('A');
+// graph.addVertex('B');
+// graph.addVertex('C');
+// graph.addVertex('D');
+// graph.addVertex('E');
+
+
+// graph.addEdge('A', 'B');
+// graph.addEdge('D', 'E');
+// graph.addEdge('C', 'E');
+// graph.addEdge('A', 'D');
+// graph.addEdge('A', 'C');
+// graph.addEdge('E', 'B');
+
+
+// graph.dfs('A');
+
+
+
+
+
+
+
+
+
