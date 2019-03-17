@@ -6,7 +6,7 @@ class Graph {
   }
 
   addVertex(vertex) {
-    this.adjList[vertex] = []
+    this.adjList[vertex] = [];
   }
 
   addEdge(vertex1, vertex2) {
@@ -95,7 +95,7 @@ graph.addEdge('F', 'A');
 
 // console.log('dfs', graph.dfs("A"))
 
-console.log('cycle?', graph.detectCycle())
+console.log('cycle?', graph.detectCycle());
 
 
 
