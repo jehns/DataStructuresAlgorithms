@@ -108,7 +108,7 @@ console.log('cycle?', graph.detectCycle());
 //   }
 
 //   addVertex(vertex) {
-//     this.adjList[vertex] = []
+//     this.adjList[vertex] = [];
 //   }
 
 //   addEdge(vertex1, vertex2) {
@@ -118,7 +118,7 @@ console.log('cycle?', graph.detectCycle());
 //   }
 
 //   dfs(startingVertex) {
-//     this.dfsUTIL(startingVertex)
+//     this.dfsUTIL(startingVertex);
 //   }
 
 //   dfsUTIL(vertex, visited = {}) {
